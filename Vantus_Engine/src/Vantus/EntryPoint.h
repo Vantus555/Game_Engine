@@ -5,7 +5,10 @@
 extern Vantus::Application* Vantus::CreateApplication();
 
 void main(int argc, char** argv) {
-	printf("Vantus Engine!\n");
+	Vantus::Log::Init();
+	Vantus::Log::GetCoreLogger()->warn("Init Log");
+	Vantus::Log::GetClientLogger()->info("Hello world!");
+
 	auto app = Vantus::CreateApplication();
 	app->Run();
 	delete app;

@@ -27,6 +27,9 @@
     <ClInclude Include="src\Vantus\EntryPoint.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="src\Vantus\Log.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Vantus\Application.cpp">

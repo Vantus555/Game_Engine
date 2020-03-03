@@ -15,6 +15,7 @@
     <ClInclude Include="src\Vantus\Application.h" />
     <ClInclude Include="src\Vantus\Core.h" />
     <ClInclude Include="src\Vantus\EntryPoint.h" />
+    <ClInclude Include="src\Vantus\Log.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Vantus\Application.cpp" />
@@ -67,6 +68,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>VANTUS_PLATFORM_WINDOWS;VANTUS_BUILD_DLL;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Vantus_Engine/vendor/spdlog/include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -81,6 +83,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Vantus_Engine/vendor/spdlog/include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -2,9 +2,10 @@
 
 // Для использованя в приложениях
 
-#include "stdio.h"
 #include "Vantus/Application.h"
 
-//--------Entry Point--------------
+//-----------Log-----------------
+#include "Vantus/Log.h"
+//--------Entry Point------------
 #include "Vantus/EntryPoint.h"
-//---------------------------------
+//-------------------------------
