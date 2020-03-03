@@ -22,16 +22,21 @@ namespace Vantus {
 
 	void Log::Init() {
 		spdlog::set_pattern("%^[%T] %n: %v%$");
-		spdlog::register_logger(s_CoreLogger);
 
-		s_CoreLogger = spdlog::get("Vantus");
-		//s_CoreLogger = spdlog::default_logger();
-		s_CoreLogger->set_level(spdlog::level::trace);
-
-		spdlog::register_logger(s_ClientLogger);
-		s_ClientLogger = spdlog::get("APP");
-		//s_ClientLogger = spdlog::default_logger();
-		s_ClientLogger->set_level(spdlog::level::trace);
+		s_CoreLogger = spdlog::stdout_color_st("Vantus");
+		s_ClientLogger = spdlog::stdout_color_st("APP");
 	}
+
+	#define VANTUS_CORE_TRACE(...) ::Vantus::Log::GetCoreLogger()->trace(__VA_ARGS__);
+	#define VANTUS_CORE_INFO(...) ::Vantus::Log::GetCoreLogger()->info(__VA_ARGS__);
+	#define VANTUS_CORE_WARN(...) ::Vantus::Log::GetCoreLogger()->warn(__VA_ARGS__);
+	#define VANTUS_CORE_ERROR(...) ::Vantus::Log::GetCoreLogger()->error(__VA_ARGS__);
+	#define VANTUS_CORE_CRITICVA(...) ::Vantus::Log::GetCoreLogger()->critical(__VA_ARGS__);
+
+	#define VANTUS_TRACE(...) ::Vantus::Log::GetClientLogger()->trace(__VA_ARGS__);
+	#define VANTUS_INFO(...) ::Vantus::Log::GetClientLogger()->info(__VA_ARGS__);
+	#define VANTUS_WARN(...) ::Vantus::Log::GetClientLogger()->warn(__VA_ARGS__);
+	#define VANTUS_ERROR(...) ::Vantus::Log::GetClientLogger()->error(__VA_ARGS__);
+	#define VANTUS_CRITICVA(...) ::Vantus::Log::GetClientLogger()->critical(__VA_ARGS__);
 }
 
