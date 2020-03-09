@@ -1,7 +1,7 @@
 #pragma once
 
+#include "vpch.h"
 #include "Event.h"
-#include "sstream"
 
 namespace Vantus {
 

@@ -34,10 +34,12 @@
     <ClInclude Include="src\Vantus\Log.h">
       <Filter>Vantus</Filter>
     </ClInclude>
+    <ClInclude Include="src\vpch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Vantus\Application.cpp">
       <Filter>Vantus</Filter>
     </ClCompile>
+    <ClCompile Include="src\vpch.cpp" />
   </ItemGroup>
 </Project>

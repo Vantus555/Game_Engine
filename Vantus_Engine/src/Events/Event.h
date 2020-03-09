@@ -1,9 +1,7 @@
 #pragma once
 
+#include "vpch.h"
 #include "Vantus/Core.h"
-
-#include "iostream"
-#include "functional"
 
 namespace Vantus {
 

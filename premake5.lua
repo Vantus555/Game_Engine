@@ -18,6 +18,9 @@ project "Vantus_Engine"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
+	pchheader "vpch.h"
+	pchsource "Vantus_Engine/src/vpch.cpp"
+
 	files
 	{
 		"%{prj.name}/src/**.h",
