@@ -7,5 +7,7 @@
 		#define VANTUS_API __declspec(dllexport)
 	#endif
 #else
-	#error Vantus only suppor Windows!
+	#error Vantus only support Windows!
 #endif
+
+#define BIT(x) (1 << x)
