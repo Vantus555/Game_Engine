@@ -1,26 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Events">
-      <UniqueIdentifier>{3A8963B1-262B-8E87-0FE6-A1DBFB2615D8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Vantus">
       <UniqueIdentifier>{664294D7-52E4-BEAD-3B9F-D20127E045FE}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Vantus\Events">
+      <UniqueIdentifier>{8A7FA6EF-F63F-2226-BF7A-6BA32BFA6602}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Events\ApplicationEvent.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Events\Event.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Events\KeyEvent.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Events\MouseEvent.h">
-      <Filter>Events</Filter>
-    </ClInclude>
     <ClInclude Include="src\Vantus.h" />
     <ClInclude Include="src\Vantus\Application.h">
       <Filter>Vantus</Filter>
@@ -31,15 +19,30 @@
     <ClInclude Include="src\Vantus\EntryPoint.h">
       <Filter>Vantus</Filter>
     </ClInclude>
+    <ClInclude Include="src\Vantus\Events\ApplicationEvent.h">
+      <Filter>Vantus\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vantus\Events\Event.h">
+      <Filter>Vantus\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vantus\Events\KeyEvent.h">
+      <Filter>Vantus\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vantus\Events\MouseEvent.h">
+      <Filter>Vantus\Events</Filter>
+    </ClInclude>
     <ClInclude Include="src\Vantus\Log.h">
       <Filter>Vantus</Filter>
     </ClInclude>
     <ClInclude Include="src\vpch.h" />
+    <ClInclude Include="src\Vantus\Window.h" />
+    <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Vantus\Application.cpp">
       <Filter>Vantus</Filter>
     </ClCompile>
     <ClCompile Include="src\vpch.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
   </ItemGroup>
 </Project>

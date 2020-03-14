@@ -10,6 +10,11 @@ workspace "Vantus_Engine"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "Vantus_Engine/vendor/GLFW/include"
+
+include "Vantus_Engine/vendor/GLFW/"
+
 project "Vantus_Engine"
 	location "Vantus_Engine"
 	kind "SharedLib"
@@ -30,7 +35,14 @@ project "Vantus_Engine"
 	includedirs
 	{
 		"%{prj.name}/src",
-		"%{prj.name}/vendor/spdlog/include/"
+		"%{prj.name}/vendor/spdlog/include/",
+		"%{IncludeDir.GLFW}"
+	}
+
+	links 
+	{
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"

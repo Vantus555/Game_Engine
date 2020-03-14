@@ -1,29 +1,27 @@
 #include "vpch.h"
-
 #include "Application.h"
 
-#include "Events/ApplicationEvent.h"
-#include "Events/KeyEvent.h"
-#include "Log.h"
+#include "Vantus/Events/ApplicationEvent.h"
+//#include "Vantus/Log.h"
+
+#include <GLFW/glfw3.h>
 
 namespace Vantus {
 
 	Vantus::Application::Application(){
-
+		m_Window = std::unique_ptr<Window>(Window::Create());
 	}
 
 	Vantus::Application::~Application(){
 
 	}
 
-	void Application::Run(){
-		Vantus::Log::Init();
-		KeyPressedEvent e(10, 10);
-		
-		if (e.IsInCategory(EventCategoryKeyboard)) {
-			VANTUS_WARN(e.ToString());
+	void Application::Run(){		
+		while (m_Running) {
+			glClearColor(1, 0, 1, 1);
+			glClear(GL_COLOR_BUFFER_BIT);
+			m_Window->OnUpdate();
 		}
-		while (true);
 	}
 
 }
