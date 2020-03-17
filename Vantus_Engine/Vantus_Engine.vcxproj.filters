@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows">
+      <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Vantus">
       <UniqueIdentifier>{664294D7-52E4-BEAD-3B9F-D20127E045FE}</UniqueIdentifier>
     </Filter>
@@ -9,6 +15,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
     <ClInclude Include="src\Vantus.h" />
     <ClInclude Include="src\Vantus\Application.h">
       <Filter>Vantus</Filter>
@@ -34,15 +43,21 @@
     <ClInclude Include="src\Vantus\Log.h">
       <Filter>Vantus</Filter>
     </ClInclude>
+    <ClInclude Include="src\Vantus\Window.h">
+      <Filter>Vantus</Filter>
+    </ClInclude>
     <ClInclude Include="src\vpch.h" />
-    <ClInclude Include="src\Vantus\Window.h" />
-    <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
+      <Filter>Platform\Windows</Filter>
+    </ClCompile>
     <ClCompile Include="src\Vantus\Application.cpp">
       <Filter>Vantus</Filter>
     </ClCompile>
     <ClCompile Include="src\vpch.cpp" />
-    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="src\Vantus\Log.cpp">
+      <Filter>Vantus</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

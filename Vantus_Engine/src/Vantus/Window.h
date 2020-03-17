@@ -1,8 +1,6 @@
 #pragma once
 
 //#include "vpch.h"
-
-//#include "Vantus/Core.h"
 #include "Events/Event.h"
 
 namespace Vantus {

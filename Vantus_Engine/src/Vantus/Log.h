@@ -1,8 +1,7 @@
-#pragma once
+ #pragma once
 
 #include "Core.h"
 #include "spdlog/spdlog.h"
-#include "spdlog/sinks/stdout_color_sinks.h"
 #include "spdlog/fmt/ostr.h"
 
 namespace Vantus {
@@ -10,22 +9,22 @@ namespace Vantus {
 	public:
 		static void Init();
 		
-		static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_CoreLogger; }
-		static std::shared_ptr<spdlog::logger>& GetClientLogger() { return s_ClientLogger;  }
+		static std::shared_ptr<spdlog::logger>& GetCoreLogger();
+		static std::shared_ptr<spdlog::logger>& GetClientLogger();
 	private:
 		static std::shared_ptr<spdlog::logger> s_CoreLogger;
 		static std::shared_ptr<spdlog::logger> s_ClientLogger;
 	};
 
-	std::shared_ptr<spdlog::logger> Log::s_CoreLogger;
-	std::shared_ptr<spdlog::logger> Log::s_ClientLogger;
+	//std::shared_ptr<spdlog::logger> Log::s_CoreLogger;
+	//std::shared_ptr<spdlog::logger> Log::s_ClientLogger;
 
-	void Log::Init() {
+	/*void Log::Init() {
 		spdlog::set_pattern("%^[%T] %n: %v%$");
 
 		s_CoreLogger = spdlog::stdout_color_st("Vantus");
 		s_ClientLogger = spdlog::stdout_color_st("APP");
-	}
+	}*/
 
 	#define VANTUS_CORE_TRACE(...) ::Vantus::Log::GetCoreLogger()->trace(__VA_ARGS__);
 	#define VANTUS_CORE_INFO(...) ::Vantus::Log::GetCoreLogger()->info(__VA_ARGS__);

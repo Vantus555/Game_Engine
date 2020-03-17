@@ -12,7 +12,10 @@
 #include "unordered_map"
 #include "unordered_set"
 
-//#include "Vantus/Log.h"
+#ifndef m_Log
+#define m_Log
+#include "Vantus/Log.h"
+#endif
 
 #ifdef VANTUS_PLATFORM_WINDOWS
 	#include "Windows.h"

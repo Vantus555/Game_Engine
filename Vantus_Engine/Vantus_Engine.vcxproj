@@ -149,6 +149,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\Vantus.h" />
     <ClInclude Include="src\Vantus\Application.h" />
     <ClInclude Include="src\Vantus\Core.h" />
@@ -160,14 +161,14 @@
     <ClInclude Include="src\Vantus\Log.h" />
     <ClInclude Include="src\Vantus\Window.h" />
     <ClInclude Include="src\vpch.h" />
-    <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\Vantus\Application.cpp" />
+    <ClCompile Include="src\Vantus\Log.cpp" />
     <ClCompile Include="src\vpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">
