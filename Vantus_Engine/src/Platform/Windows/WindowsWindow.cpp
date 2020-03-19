@@ -6,7 +6,8 @@
 #include "Vantus/Events/KeyEvent.h"
 #include "Vantus/Events/MouseEvent.h"
 
-#define VANTUS_ENABLE_ASSERTS
+#include "glad/glad.h"
+
 namespace Vantus {
 
 	static bool s_GLFWInitialized = false;
@@ -44,6 +45,10 @@ namespace Vantus {
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
+
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		VANTUS_CORE_ASSERT(status, "GLAD Error!")
+
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 

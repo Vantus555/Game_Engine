@@ -16,16 +16,6 @@ namespace Vantus {
 		static std::shared_ptr<spdlog::logger> s_ClientLogger;
 	};
 
-	//std::shared_ptr<spdlog::logger> Log::s_CoreLogger;
-	//std::shared_ptr<spdlog::logger> Log::s_ClientLogger;
-
-	/*void Log::Init() {
-		spdlog::set_pattern("%^[%T] %n: %v%$");
-
-		s_CoreLogger = spdlog::stdout_color_st("Vantus");
-		s_ClientLogger = spdlog::stdout_color_st("APP");
-	}*/
-
 	#define VANTUS_CORE_TRACE(...) ::Vantus::Log::GetCoreLogger()->trace(__VA_ARGS__);
 	#define VANTUS_CORE_INFO(...) ::Vantus::Log::GetCoreLogger()->info(__VA_ARGS__);
 	#define VANTUS_CORE_WARN(...) ::Vantus::Log::GetCoreLogger()->warn(__VA_ARGS__);

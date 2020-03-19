@@ -12,8 +12,10 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
 IncludeDir["GLFW"] = "Vantus_Engine/vendor/GLFW/include"
+IncludeDir["Glad"] = "Vantus_Engine/vendor/Glad/include"
 
 include "Vantus_Engine/vendor/GLFW/"
+include "Vantus_Engine/vendor/Glad/"
 
 project "Vantus_Engine"
 	location "Vantus_Engine"
@@ -36,12 +38,14 @@ project "Vantus_Engine"
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include/",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}"
 	}
 
 	links 
 	{
 		"GLFW",
+		"Glad",
 		"opengl32.lib"
 	}
 
@@ -53,7 +57,8 @@ project "Vantus_Engine"
 	defines
 	{
 		"VANTUS_PLATFORM_WINDOWS",
-		"VANTUS_BUILD_DLL"
+		"VANTUS_BUILD_DLL",
+		"GLFW_INCLUDE_NONE"
 	}
 	
 	postbuildcommands
@@ -63,14 +68,17 @@ project "Vantus_Engine"
 
 	filter "configurations:Debug"
 		defines "VANTUS_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "VANTUS_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 		
 	filter "configurations:Dist"
 		defines "VANTUS_DIST"
+		buildoptions "/MD"
 		optimize "On"
 
 
@@ -111,12 +119,15 @@ project "Vantus_Engine"
 
 		filter "configurations:Debug"
 			defines "VANTUS_DEBUG"
+			buildoptions "/MDd"
 			symbols "On"
 
 		filter "configurations:Release"
 			defines "VANTUS_RELEASE"
+			buildoptions "/MD"
 			optimize "On"
 		
 		filter "configurations:Dist"
 			defines "VANTUS_DIST"
+			buildoptions "/MD"
 			optimize "On"

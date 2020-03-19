@@ -40,6 +40,12 @@
     <ClInclude Include="src\Vantus\Events\MouseEvent.h">
       <Filter>Vantus\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Vantus\Layer.h">
+      <Filter>Vantus</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vantus\LayerStack.h">
+      <Filter>Vantus</Filter>
+    </ClInclude>
     <ClInclude Include="src\Vantus\Log.h">
       <Filter>Vantus</Filter>
     </ClInclude>
@@ -55,9 +61,15 @@
     <ClCompile Include="src\Vantus\Application.cpp">
       <Filter>Vantus</Filter>
     </ClCompile>
-    <ClCompile Include="src\vpch.cpp" />
+    <ClCompile Include="src\Vantus\Layer.cpp">
+      <Filter>Vantus</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vantus\LayerStack.cpp">
+      <Filter>Vantus</Filter>
+    </ClCompile>
     <ClCompile Include="src\Vantus\Log.cpp">
       <Filter>Vantus</Filter>
     </ClCompile>
+    <ClCompile Include="src\vpch.cpp" />
   </ItemGroup>
 </Project>

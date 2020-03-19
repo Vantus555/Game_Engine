@@ -4,6 +4,8 @@
 
 #include "Vantus/Application.h"
 
+//-----------Layer-----------------
+#include "Vantus/Layer.h"
 //-----------Log-----------------
 #include "Vantus/Log.h"
 //--------Entry Point------------
