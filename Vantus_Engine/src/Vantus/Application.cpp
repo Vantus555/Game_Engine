@@ -8,7 +8,12 @@ namespace Vantus {
 
 #define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
 
+	Application* Application::m_Instance = nullptr;
+
 	Vantus::Application::Application(){
+		VANTUS_CORE_ASSERT(!m_Instance, "Application already exists!");
+		m_Instance = this;
+
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
 	}
@@ -42,10 +47,20 @@ namespace Vantus {
 
 	void Application::PushLayer(Layer* layer) {
 		m_LayerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* overlay) {
 		m_LayerStack.PushLayer(overlay);
+		overlay->OnAttach();
+	}
+
+	inline Application& Application::Get() {
+		return *m_Instance;
+	}
+
+	inline Window& Application::GetWindow() {
+		return *m_Window;
 	}
 
 	bool Application::OnWindowClose(WindowCloseEvent& e) {

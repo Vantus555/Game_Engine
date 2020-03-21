@@ -13,9 +13,11 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
 IncludeDir["GLFW"] = "Vantus_Engine/vendor/GLFW/include"
 IncludeDir["Glad"] = "Vantus_Engine/vendor/Glad/include"
+IncludeDir["ImGui"] = "Vantus_Engine/vendor/imgui"
 
 include "Vantus_Engine/vendor/GLFW/"
 include "Vantus_Engine/vendor/Glad/"
+include "Vantus_Engine/vendor/imgui/"
 
 project "Vantus_Engine"
 	location "Vantus_Engine"
@@ -39,13 +41,15 @@ project "Vantus_Engine"
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include/",
 		"%{IncludeDir.GLFW}",
-		"%{IncludeDir.Glad}"
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.ImGui}"
 	}
 
 	links 
 	{
 		"GLFW",
 		"Glad",
+		"ImGui",
 		"opengl32.lib"
 	}
 
