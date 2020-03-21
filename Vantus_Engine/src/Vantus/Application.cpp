@@ -6,8 +6,6 @@
 
 namespace Vantus {
 
-#define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
-
 	Application* Application::m_Instance = nullptr;
 
 	Vantus::Application::Application(){
@@ -15,7 +13,7 @@ namespace Vantus {
 		m_Instance = this;
 
 		m_Window = std::unique_ptr<Window>(Window::Create());
-		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
+		m_Window->SetEventCallback(VANTUS_BIND_EVENT_FN(Application::OnEvent));
 	}
 
 	Vantus::Application::~Application(){
@@ -36,7 +34,7 @@ namespace Vantus {
 
 	void Application::OnEvent(Event& e) {
 		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowCloseEvent>(VANTUS_BIND_EVENT_FN(Application::OnWindowClose));
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); ) {
 			(*--it)->OnEvent(e);

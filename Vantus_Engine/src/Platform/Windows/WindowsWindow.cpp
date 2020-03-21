@@ -93,6 +93,13 @@ namespace Vantus {
 			}
 		});
 		///////////////////////////////////////////////////////////////////////////////////////////////////
+		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int key) {
+			WindowData& date = *(WindowData*)glfwGetWindowUserPointer(window);
+
+			KeyTypedEvent event(key);
+			date.EventCallback(event);
+		});
+		///////////////////////////////////////////////////////////////////////////////////////////////////
 		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mode) {
 			WindowData& date = *(WindowData*)glfwGetWindowUserPointer(window);
 
