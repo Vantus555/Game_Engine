@@ -19,6 +19,7 @@ project "Glad"
     
     filter "system:windows"
         systemversion "latest"
+        cppdialect "C++17"
         staticruntime "On"
         
     filter { "system:windows", "configurations:Release" }

@@ -10,6 +10,10 @@
 	#error Vantus only support Windows!
 #endif
 
+#ifdef VANTUS_DEBUG
+	#define VANTUS_ENABLE_ASSERTS
+#endif
+
 #ifdef VANTUS_ENABLE_ASSERTS
 	#define VANTUS_ASSERT(x, ...) { if(!(x)) { VANTUS_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
 	#define VANTUS_CORE_ASSERT(x, ...) { if(!(x)) { VANTUS_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }

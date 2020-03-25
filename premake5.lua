@@ -1,5 +1,6 @@
 workspace "Vantus_Engine"
-	architecture "x64"
+	architecture "x86_64"
+	startproject "Sandbox"
 
 	configurations
 	{
@@ -15,9 +16,12 @@ IncludeDir["GLFW"] = "Vantus_Engine/vendor/GLFW/include"
 IncludeDir["Glad"] = "Vantus_Engine/vendor/Glad/include"
 IncludeDir["ImGui"] = "Vantus_Engine/vendor/imgui"
 
-include "Vantus_Engine/vendor/GLFW/"
-include "Vantus_Engine/vendor/Glad/"
-include "Vantus_Engine/vendor/imgui/"
+group "Dependencies"
+	include "Vantus_Engine/vendor/GLFW/"
+	include "Vantus_Engine/vendor/Glad/"
+	include "Vantus_Engine/vendor/imgui/"
+
+group ""
 
 project "Vantus_Engine"
 	location "Vantus_Engine"

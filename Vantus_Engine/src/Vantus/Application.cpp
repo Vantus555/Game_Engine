@@ -3,7 +3,7 @@
 #include "Application.h"
 #include "Vantus/Events/ApplicationEvent.h"
 #include "glad/glad.h"
-
+#include "Vantus/Input.h"
 namespace Vantus {
 
 	Application* Application::m_Instance = nullptr;
@@ -28,6 +28,9 @@ namespace Vantus {
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
 
+			auto [x, y] = Input::GetMousePosition();
+			VANTUS_CORE_WARN("{0}, {1}", x, y);
+
 			m_Window->OnUpdate();
 		}
 	}
@@ -45,12 +48,10 @@ namespace Vantus {
 
 	void Application::PushLayer(Layer* layer) {
 		m_LayerStack.PushLayer(layer);
-		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* overlay) {
 		m_LayerStack.PushLayer(overlay);
-		overlay->OnAttach();
 	}
 
 	inline Application& Application::Get() {

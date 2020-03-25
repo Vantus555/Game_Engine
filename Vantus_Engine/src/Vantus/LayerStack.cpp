@@ -13,10 +13,12 @@ namespace Vantus {
 
 	void Vantus::LayerStack::PushLayer(Layer* layer) {
 		m_LayerInsert = m_Layer.emplace(m_LayerInsert, layer);
+		layer->OnAttach();
 	}
 
 	void Vantus::LayerStack::PushOverlay(Layer* overlay) {
 		m_Layer.emplace_back(overlay);
+		overlay->OnAttach();
 	}
 
 	void Vantus::LayerStack::PopLayer(Layer* layer) {
