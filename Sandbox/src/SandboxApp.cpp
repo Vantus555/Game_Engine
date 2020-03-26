@@ -7,11 +7,12 @@ public:
 	}
 
 	void OnUpdate() override {
-		VANTUS_INFO("ExampleLayer::Update");
+		if(Vantus::Input::IsKeyPressed(VANTUS_KEY_TAB))
+			VANTUS_WARN("Key TAB pressed!");
 	}
 
 	void OnEvent(Vantus::Event& event) override {
-		VANTUS_WARN("{0}", event);
+		//VANTUS_WARN("{0}", event);
 	}
 };
 

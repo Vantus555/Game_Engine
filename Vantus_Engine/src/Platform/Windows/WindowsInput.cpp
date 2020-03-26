@@ -5,7 +5,6 @@
 #include "GLFW/glfw3.h"
 
 namespace Vantus {
-
 	Input* Input::s_Instance = new WindowsInput();
 
 	bool WindowsInput::IsKeyPressedImpl(int keycode) {
