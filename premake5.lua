@@ -15,6 +15,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Vantus_Engine/vendor/GLFW/include"
 IncludeDir["Glad"] = "Vantus_Engine/vendor/Glad/include"
 IncludeDir["ImGui"] = "Vantus_Engine/vendor/imgui"
+IncludeDir["glm"] = "Vantus_Engine/vendor/glm"
 
 group "Dependencies"
 	include "Vantus_Engine/vendor/GLFW/"
@@ -37,7 +38,9 @@ project "Vantus_Engine"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/venfor/glm/glm/**.hpp",
+		"%{prj.name}/venfor/glm/glm/**.inl"
 	}
 
 	includedirs
@@ -46,7 +49,8 @@ project "Vantus_Engine"
 		"%{prj.name}/vendor/spdlog/include/",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
 	}
 
 	links 
@@ -107,7 +111,8 @@ project "Vantus_Engine"
 		includedirs
 		{
 			"Vantus_Engine/vendor/spdlog/include",
-			"Vantus_Engine/src"
+			"Vantus_Engine/src",
+			"%{IncludeDir.glm}"
 		}
 
 		links
