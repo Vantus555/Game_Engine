@@ -20,7 +20,6 @@ class Sandbox : public Vantus::Application {
 public:
 	Sandbox() {
 		PushLayer(new ExampleLeyer());
-		PushLayer(new Vantus::ImGuiLayer());
 	}
 	~Sandbox() {
 

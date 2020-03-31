@@ -5,6 +5,7 @@
 #include "LayerStack.h"
 #include "Events/Event.h"
 #include "Vantus/Events/ApplicationEvent.h"
+#include "Vantus/ImGui/ImGuiLayer.h"
 
 namespace Vantus {
 	class VANTUS_API Application
@@ -26,6 +27,8 @@ namespace Vantus {
 		bool OnWindowClose(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
+
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 

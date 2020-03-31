@@ -3,7 +3,6 @@
 
 namespace Vantus {
 	Vantus::LayerStack::LayerStack() {
-		m_LayerInsert = m_Layer.begin();
 	}
 
 	Vantus::LayerStack::~LayerStack() {
@@ -12,7 +11,8 @@ namespace Vantus {
 	}
 
 	void Vantus::LayerStack::PushLayer(Layer* layer) {
-		m_LayerInsert = m_Layer.emplace(m_LayerInsert, layer);
+		m_Layer.emplace(m_Layer.begin() + m_LayerInsertIndex, layer);
+		m_LayerInsertIndex++;
 		layer->OnAttach();
 	}
 
@@ -25,7 +25,7 @@ namespace Vantus {
 		auto it = std::find(m_Layer.begin(), m_Layer.end(), layer);
 		if (it != m_Layer.end()) {
 			m_Layer.erase(it);
-			m_LayerInsert--;
+			m_LayerInsertIndex--;
 		}
 	}
 
