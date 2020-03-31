@@ -59,13 +59,9 @@ namespace Vantus {
 		m_LayerStack.PushLayer(overlay);
 	}
 
-	inline Application& Application::Get() {
-		return *m_Instance;
-	}
+	//inline Application& Application::Get() 
 
-	inline Window& Application::GetWindow() {
-		return *m_Window;
-	}
+	//inline Window& Application::GetWindow() 
 
 	bool Application::OnWindowClose(WindowCloseEvent& e) {
 		m_Running = false;

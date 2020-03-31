@@ -21,8 +21,12 @@ namespace Vantus {
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
 
-		inline static Application& Get();
-		inline Window& GetWindow();
+		inline static Application& Get() {
+			return *m_Instance;
+		}
+		inline Window& GetWindow() {
+			return *m_Window;
+		}
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 

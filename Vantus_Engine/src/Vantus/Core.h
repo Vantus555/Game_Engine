@@ -1,11 +1,15 @@
 #pragma once
 
 #ifdef VANTUS_PLATFORM_WINDOWS
+#if VANTUS_DYNAMIC_LINK
 	#ifdef VANTUS_BUILD_DLL
 		#define VANTUS_API __declspec(dllexport)
 	#else
 		#define VANTUS_API __declspec(dllexport)
 	#endif
+#else
+	#define VANTUS_API
+#endif
 #else
 	#error Vantus only support Windows!
 #endif
