@@ -2,6 +2,7 @@
 
 #include "Vantus/Window.h"
 #include "GLFW/glfw3.h"
+#include "Vantus/Renderer/GraphicsContext.h"
 
 namespace Vantus {
 
@@ -23,7 +24,9 @@ namespace Vantus {
 	private:
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
+
 		GLFWwindow* m_Window;
+		GraphicsContext* m_Context;
 
 		struct WindowData {
 			std::string Title;
