@@ -7,6 +7,7 @@
 [submodule "Vantus_Engine/vendor/imgui"]
 	path = Vantus_Engine/vendor/imgui
 	url = https://github.com/ocornut/imgui
+	branch = docking
 [submodule "Vantus_Engine/vendor/glm"]
 	path = Vantus_Engine/vendor/glm
 	url = https://github.com/g-truc/glm

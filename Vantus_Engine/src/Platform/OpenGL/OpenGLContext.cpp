@@ -15,6 +15,11 @@ namespace Vantus {
 		glfwMakeContextCurrent(m_WindowHandle);
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		VANTUS_CORE_ASSERT(status, "GLAD Error!");
+
+		VANTUS_CORE_INFO("OpenGL info: ");
+		VANTUS_CORE_INFO("	Vendor: {0}", glGetString(GL_VENDOR));
+		VANTUS_CORE_INFO("	Renderer: {0}", glGetString(GL_RENDERER));
+		VANTUS_CORE_INFO("	Version: {0}", glGetString(GL_VERSION));
 	}
 	void OpenGLContext::SwapBuffers() {
 		glfwSwapBuffers(m_WindowHandle);

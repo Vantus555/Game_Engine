@@ -17,6 +17,22 @@ namespace Vantus {
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
+
+		float buffer[3 * 3] = {
+			-0.5,	-0.5,	0.0,
+			0.0,	0.5,	0.0,
+			0.5,	-0.5,	0.0
+		};
+
+		glGenVertexArrays(1, &m_VertexArray);
+		glBindVertexArray(m_VertexArray);
+
+		glGenBuffers(1, &m_VertexBuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(buffer), buffer, GL_STATIC_DRAW);
+
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, nullptr);
 	}
 
 	Vantus::Application::~Application(){
@@ -25,8 +41,11 @@ namespace Vantus {
 
 	void Application::Run(){		
 		while (m_Running) {
-			glClearColor(1, 0, 1, 1);
+			glClearColor(0.1, 0.1, 0.1, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
+
+			glBindVertexArray(m_VertexArray);
+			glDrawArrays(GL_TRIANGLES, 0, 3);
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
@@ -58,10 +77,6 @@ namespace Vantus {
 	void Application::PushOverlay(Layer* overlay) {
 		m_LayerStack.PushLayer(overlay);
 	}
-
-	//inline Application& Application::Get() 
-
-	//inline Window& Application::GetWindow() 
 
 	bool Application::OnWindowClose(WindowCloseEvent& e) {
 		m_Running = false;

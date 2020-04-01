@@ -37,6 +37,8 @@ namespace Vantus {
 		LayerStack m_LayerStack;
 
 		static Application* m_Instance;
+
+		unsigned int m_VertexArray, m_VertexBuffer;
 	};
 	
 	// Определение для клиента
