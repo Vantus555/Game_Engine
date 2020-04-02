@@ -33,6 +33,31 @@ namespace Vantus {
 
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, nullptr);
+
+		std::string vertexSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) in vec3 a_Position;
+			out vec3 pos;
+
+			void main(){
+				pos = a_Position;
+				gl_Position = vec4(a_Position, 1.0);
+			}
+			
+		)";
+
+		std::string fragmentSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) out vec4 u_Color;
+			in vec3 pos;
+			void main(){
+				u_Color = vec4(pos * 0.5 + 0.5,1.0);
+			}
+			
+		)";
+		m_Shader.reset(new Shader(vertexSrc, fragmentSrc));
 	}
 
 	Vantus::Application::~Application(){
@@ -44,6 +69,7 @@ namespace Vantus {
 			glClearColor(0.1, 0.1, 0.1, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
+			m_Shader->Bind();
 			glBindVertexArray(m_VertexArray);
 			glDrawArrays(GL_TRIANGLES, 0, 3);
 
