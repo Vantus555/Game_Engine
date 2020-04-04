@@ -7,6 +7,7 @@
 #include "Vantus/Events/ApplicationEvent.h"
 #include "Vantus/ImGui/ImGuiLayer.h"
 #include "Vantus/Renderer/Shader.h"
+#include "Vantus/Renderer/Buffer.h"
 
 namespace Vantus {
 	class VANTUS_API Application
@@ -39,8 +40,10 @@ namespace Vantus {
 
 		static Application* m_Instance;
 
-		unsigned int m_VertexArray, m_VertexBuffer;
+		unsigned int m_VertexArray;
 		std::unique_ptr<Shader> m_Shader;
+		std::unique_ptr<VertexBuffer> m_VertexBuffer;
+		std::unique_ptr<IndexBuffer> m_IndexBuffer;
 	};
 	
 	// Определение для клиента
