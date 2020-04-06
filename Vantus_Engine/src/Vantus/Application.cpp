@@ -8,26 +8,6 @@ namespace Vantus {
 
 	Application* Application::m_Instance = nullptr;
 
-	static GLenum ShaderDataTypeToGLBaseType(ShaderDataType type) {
-		switch (type) {
-			case Vantus::ShaderDataType::None:		return GL_FLOAT;
-			case Vantus::ShaderDataType::Float:		return GL_FLOAT;
-			case Vantus::ShaderDataType::Float2:	return GL_FLOAT;
-			case Vantus::ShaderDataType::Float3:	return GL_FLOAT;
-			case Vantus::ShaderDataType::Float4:	return GL_FLOAT;
-			case Vantus::ShaderDataType::Mat3:		return GL_FLOAT;
-			case Vantus::ShaderDataType::Mat4:		return GL_FLOAT;
-			case Vantus::ShaderDataType::Int:		return GL_INT;
-			case Vantus::ShaderDataType::Int2:		return GL_INT;
-			case Vantus::ShaderDataType::Int3:		return GL_INT;
-			case Vantus::ShaderDataType::Int4:		return GL_INT;
-			case Vantus::ShaderDataType::Bool:		return GL_BOOL;
-		}
-
-		VANTUS_CORE_ASSERT(false, "Unknown ShaderDataType!");
-		return 0;
-	}
-
 	Vantus::Application::Application() {
 		VANTUS_CORE_ASSERT(!m_Instance, "Application already exists!");
 		m_Instance = this;
@@ -38,9 +18,7 @@ namespace Vantus {
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
 
-
-		glGenVertexArrays(1, &m_VertexArray);
-		glBindVertexArray(m_VertexArray);
+		m_VertexArray.reset(VertexArray::Create());
 
 		float vertices[] = {
 			-0.5,	-0.5,	0.0,	1.0,	0.0,	0.0,	0.0,
@@ -48,33 +26,22 @@ namespace Vantus {
 			0.5,	-0.5,	0.0,	1.0,	1.0,	0.0,	0.0
 		};
 
-		uint32_t indices[3] = { 0,1,2 };
-
+		std::shared_ptr<VertexBuffer> m_VertexBuffer;
 		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
-		m_VertexBuffer->Bind();
-		{
-			BufferLayout layout = {
-				{ ShaderDataType::Float3, "a_Position" },
-				{ ShaderDataType::Float4, "a_Color" }
-			};
+		
+		BufferLayout layout = {
+			{ ShaderDataType::Float3, "a_Position" },
+			{ ShaderDataType::Float4, "a_Color" }
+		};
 
-			m_VertexBuffer->SetLayout(layout);
-		}
-		uint32_t index = 0;
-		for (auto& elem : m_VertexBuffer->GetLayout()) {
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(index, 
-				elem.GetComponentCount(), 
-				ShaderDataTypeToGLBaseType(elem.Type), 
-				elem.Normalized ? true : false, 
-				m_VertexBuffer->GetLayout().GetStride(),
-				(const void*)elem.Offset);
-			index++;
-		}
+		m_VertexBuffer->SetLayout(layout);
+		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
 
+		uint32_t indices[] = { 0,1,2 };
+
+		std::shared_ptr<IndexBuffer> m_IndexBuffer;
 		m_IndexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
-		m_IndexBuffer->Bind();
-
+		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 
 		std::string vertexSrc = R"(
 			#version 330 core
@@ -102,6 +69,56 @@ namespace Vantus {
 			
 		)";
 		m_Shader.reset(new Shader(vertexSrc, fragmentSrc));
+
+		/////////////////////////////////////////////////////////////////////
+		//// Square
+		/////////////////////////////////////////////////////////////////////
+
+		m_SquareVA.reset(VertexArray::Create()); 
+
+		float squareVertices[] = {
+			-0.75,	-0.75,	0.0,
+			 0.75,	-0.75,	0.0,
+			 0.75,	 0.75,	0.0,
+			-0.75,	 0.75,	0.0
+		};
+
+		std::shared_ptr<VertexBuffer> squareVB;
+		squareVB.reset(VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+
+		squareVB->SetLayout({
+			{ ShaderDataType::Float3, "a_Position" }
+			});
+		m_SquareVA->AddVertexBuffer(squareVB);
+
+		uint32_t squareVndices[] = { 0,1,2,2,3,0 };
+
+		std::shared_ptr<IndexBuffer> squareIB;
+		squareIB.reset(IndexBuffer::Create(squareVndices, sizeof(squareVndices) / sizeof(uint32_t)));
+		m_SquareVA->SetIndexBuffer(squareIB);
+
+		std::string BlueShaderVertexSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) in vec3 a_Position;
+
+			void main(){
+				gl_Position = vec4(a_Position, 1.0);
+			}
+			
+		)";
+
+		std::string BlueShaderFragmentSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) out vec4 u_Color;
+
+			void main(){
+				u_Color = vec4(0.2, 0.3, 0.8, 1.0);
+			}
+			
+		)";
+		m_BlueShader.reset(new Shader(BlueShaderVertexSrc, BlueShaderFragmentSrc));
 	}
 
 	Vantus::Application::~Application(){
@@ -113,9 +130,13 @@ namespace Vantus {
 			glClearColor(0.1, 0.1, 0.1, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
+			m_BlueShader->Bind();
+			m_SquareVA->Bind();
+			glDrawElements(GL_TRIANGLES, m_SquareVA->GetIndexBuffers()->GetCount(), GL_UNSIGNED_INT, nullptr);
+
 			m_Shader->Bind();
-			glBindVertexArray(m_VertexArray);
-			glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+			m_VertexArray->Bind();
+			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffers()->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
