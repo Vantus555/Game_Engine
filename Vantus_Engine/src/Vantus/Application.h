@@ -10,6 +10,8 @@
 #include "Vantus/Renderer/Buffer.h"
 #include "Vantus/Renderer/VertexArray.h"
 
+#include "Vantus/Renderer/OrthographicCamera.h"
+
 namespace Vantus {
 	class VANTUS_API Application
 	{
@@ -46,6 +48,8 @@ namespace Vantus {
 
 		std::shared_ptr<Shader> m_BlueShader;
 		std::shared_ptr<VertexArray> m_SquareVA;
+
+		OrthographicCamera m_Camera;
 	};
 	
 	// Определение для клиента

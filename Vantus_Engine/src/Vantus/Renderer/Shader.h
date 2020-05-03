@@ -1,5 +1,6 @@
 #pragma once
 #include "string"
+#include "glm/glm.hpp"
 
 namespace Vantus {
 
@@ -11,6 +12,7 @@ namespace Vantus {
 		void Bind() const;
 		void Unbind() const;
 
+		void UploarUnformMat4(const std::string& name, const glm::mat4& matrix);
 	private:
 		uint32_t m_RendererID;
 	};

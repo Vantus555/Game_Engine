@@ -5,7 +5,6 @@ public:
 	ExampleLeyer()
 		: Layer("Example"){
 	}
-
 	void OnUpdate() override {
 		if(Vantus::Input::IsKeyPressed(VANTUS_KEY_TAB))
 			VANTUS_WARN("Key TAB pressed!");

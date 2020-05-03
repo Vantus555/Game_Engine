@@ -2,90 +2,102 @@
 #include "Shader.h"
 #include "glad/glad.h"
 
-Vantus::Shader::Shader(const std::string& vertexSrc, const std::string& fragmentSrc) {
-	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+#include "glm/gtc/type_ptr.hpp"
 
-	const GLchar* source = (const GLchar*)vertexSrc.c_str();
-	glShaderSource(vertexShader, 1, &source, 0);
+namespace Vantus {
 
-	glCompileShader(vertexShader);
+	Shader::Shader(const std::string& vertexSrc, const std::string& fragmentSrc) {
+		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
-	GLint isCompiled = 0;
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled);
-	if (isCompiled == GL_FALSE) {
-		GLint maxLength = 0;
-		glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength);
+		const GLchar* source = (const GLchar*)vertexSrc.c_str();
+		glShaderSource(vertexShader, 1, &source, 0);
 
-		std::vector<GLchar> infoLog(maxLength);
-		glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]);
+		glCompileShader(vertexShader);
 
-		glDeleteShader(vertexShader);
+		GLint isCompiled = 0;
+		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled);
+		if (isCompiled == GL_FALSE) {
+			GLint maxLength = 0;
+			glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength);
 
-		VANTUS_CORE_ERROR("{0}", infoLog.data());
-		VANTUS_CORE_ASSERT(false, "Vertex shader compilation failure!");
-		return;
+			std::vector<GLchar> infoLog(maxLength);
+			glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]);
+
+			glDeleteShader(vertexShader);
+
+			VANTUS_CORE_ERROR("{0}", infoLog.data());
+			VANTUS_CORE_ASSERT(false, "Vertex shader compilation failure!");
+			return;
+		}
+
+		GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+
+		source = fragmentSrc.c_str();
+		glShaderSource(fragmentShader, 1, &source, 0);
+
+		glCompileShader(fragmentShader);
+
+		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled);
+		if (isCompiled == GL_FALSE) {
+			GLint maxLength = 0;
+			glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
+
+			std::vector<GLchar> infoLog(maxLength);
+			glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &infoLog[0]);
+
+			glDeleteShader(fragmentShader);
+			glDeleteShader(vertexShader);
+
+			VANTUS_CORE_ERROR("{0}", infoLog.data());
+			VANTUS_CORE_ASSERT(false, "Fragment shader compilation failure!");
+			return;
+		}
+
+		m_RendererID = glCreateProgram();
+
+		glAttachShader(m_RendererID, vertexShader);
+		glAttachShader(m_RendererID, fragmentShader);
+
+		glLinkProgram(m_RendererID);
+
+		GLint isLinked = 0;
+		glGetProgramiv(m_RendererID, GL_LINK_STATUS, (int*)&isLinked);
+		if (isLinked == GL_FALSE) {
+			GLint maxLength = 0;
+			glGetProgramiv(m_RendererID, GL_INFO_LOG_LENGTH, &maxLength);
+
+			std::vector<GLchar> infoLog(maxLength);
+			glGetProgramInfoLog(m_RendererID, maxLength, &maxLength, &infoLog[0]);
+
+			glDeleteProgram(m_RendererID);
+			glDeleteShader(vertexShader);
+			glDeleteShader(fragmentShader);
+
+			VANTUS_CORE_ERROR("{0}", infoLog.data());
+			VANTUS_CORE_ASSERT(false, "Shader link failure!");
+			return;
+		}
+
+		glDetachShader(m_RendererID, vertexShader);
+		glDetachShader(m_RendererID, fragmentShader);
 	}
 
-	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-	source = fragmentSrc.c_str();
-	glShaderSource(fragmentShader, 1, &source, 0);
-
-	glCompileShader(fragmentShader);
-
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled);
-	if (isCompiled == GL_FALSE) {
-		GLint maxLength = 0;
-		glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-		std::vector<GLchar> infoLog(maxLength);
-		glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &infoLog[0]);
-
-		glDeleteShader(fragmentShader);
-		glDeleteShader(vertexShader);
-
-		VANTUS_CORE_ERROR("{0}", infoLog.data());
-		VANTUS_CORE_ASSERT(false, "Fragment shader compilation failure!");
-		return;
-	}
-
-	m_RendererID = glCreateProgram();
-
-	glAttachShader(m_RendererID, vertexShader);
-	glAttachShader(m_RendererID, fragmentShader);
-
-	glLinkProgram(m_RendererID);
-
-	GLint isLinked = 0;
-	glGetProgramiv(m_RendererID, GL_LINK_STATUS, (int*)&isLinked);
-	if (isLinked == GL_FALSE) {
-		GLint maxLength = 0;
-		glGetProgramiv(m_RendererID, GL_INFO_LOG_LENGTH, &maxLength);
-
-		std::vector<GLchar> infoLog(maxLength);
-		glGetProgramInfoLog(m_RendererID, maxLength, &maxLength, &infoLog[0]);
-
+	Shader::~Shader() {
 		glDeleteProgram(m_RendererID);
-		glDeleteShader(vertexShader);
-		glDeleteShader(fragmentShader);
-
-		VANTUS_CORE_ERROR("{0}", infoLog.data());
-		VANTUS_CORE_ASSERT(false, "Shader link failure!");
-		return;
 	}
 
-	glDetachShader(m_RendererID, vertexShader);
-	glDetachShader(m_RendererID, fragmentShader);
-}
+	void Shader::Bind() const {
+		glUseProgram(m_RendererID);
+	}
 
-Vantus::Shader::~Shader() {
-	glDeleteProgram(m_RendererID);
-}
+	void Shader::Unbind() const {
+		glUseProgram(0);
+	}
 
-void Vantus::Shader::Bind() const {
-	glUseProgram(m_RendererID);
-}
+	void Shader::UploarUnformMat4(const std::string& name, const glm::mat4& matrix) {
+		int location = glGetUniformLocation(m_RendererID, name.c_str());
+		if (location != -1)
+			glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+	}
 
-void Vantus::Shader::Unbind() const {
-	glUseProgram(0);
 }
