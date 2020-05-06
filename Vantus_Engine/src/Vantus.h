@@ -10,6 +10,17 @@
 
 #include "Vantus/ImGui/ImGuiLayer.h"
 
+//---Renderer------------------------
+#include "Vantus/Renderer/Renderer.h"
+#include "Vantus/Renderer/RenderCommand.h"
+
+#include "Vantus/Renderer/Buffer.h"
+#include "Vantus/Renderer/Shader.h"
+#include "Vantus/Renderer/VertexArray.h"
+
+#include "Vantus/Renderer/OrthographicCamera.h"
+//-----------------------------------
+
 //--------Entry Point------------
 #include "Vantus/EntryPoint.h"
 //-------------------------------

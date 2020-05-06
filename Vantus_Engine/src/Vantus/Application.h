@@ -6,11 +6,6 @@
 #include "Events/Event.h"
 #include "Vantus/Events/ApplicationEvent.h"
 #include "Vantus/ImGui/ImGuiLayer.h"
-#include "Vantus/Renderer/Shader.h"
-#include "Vantus/Renderer/Buffer.h"
-#include "Vantus/Renderer/VertexArray.h"
-
-#include "Vantus/Renderer/OrthographicCamera.h"
 
 namespace Vantus {
 	class VANTUS_API Application
@@ -42,14 +37,6 @@ namespace Vantus {
 		LayerStack m_LayerStack;
 
 		static Application* m_Instance;
-
-		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<VertexArray> m_VertexArray;
-
-		std::shared_ptr<Shader> m_BlueShader;
-		std::shared_ptr<VertexArray> m_SquareVA;
-
-		OrthographicCamera m_Camera;
 	};
 	
 	// Определение для клиента
