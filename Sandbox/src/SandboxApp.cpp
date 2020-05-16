@@ -1,13 +1,14 @@
 #include "Vantus.h"
 
-//#include "../imgui/imgui.h"
+#include "glm/gtc/matrix_transform.hpp"
 
 class ExampleLeyer : public Vantus::Layer {
 public:
 	ExampleLeyer()
 		: Layer("Example"), 
 		m_Camera(-1.6f * 2, 1.6f * 2, -0.9f * 2, 0.9f * 2), 
-		m_CameraPosition({0.0})
+		m_CameraPosition({0.0}),
+		m_SquarePosition({-1.0})
 	{
 		m_VertexArray.reset(Vantus::VertexArray::Create());
 
@@ -42,10 +43,11 @@ public:
 			out vec4 v_Color;
 
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
 
 			void main(){
 				v_Color = a_Color;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 			
 		)";
@@ -96,9 +98,10 @@ public:
 			layout(location = 0) in vec3 a_Position;
 
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
 
 			void main(){
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 			
 		)";
@@ -117,7 +120,7 @@ public:
 	}
 
 	void OnUpdate(Vantus::TimeStep ts) override {
-		VANTUS_INFO("Delta time: {0}s ({1}ms)", ts.GetSeconds(), ts.GetMilliSeconds());
+		//VANTUS_INFO("Delta time: {0}s ({1}ms)", ts.GetSeconds(), ts.GetMilliSeconds());
 		
 		if (Vantus::Input::IsKeyPressed(VANTUS_KEY_LEFT))
 			m_CameraPosition.x += m_CameraMoveSpeed * ts;
@@ -134,6 +137,16 @@ public:
 		else if (Vantus::Input::IsKeyPressed(VANTUS_KEY_D))
 			m_CameraRotation += m_CameraRotationSpeed * ts;
 
+		if (Vantus::Input::IsKeyPressed(VANTUS_KEY_J))
+			m_SquarePosition.x -= m_SquareMoveSpeed * ts;
+		else if (Vantus::Input::IsKeyPressed(VANTUS_KEY_L))
+			m_SquarePosition.x += m_SquareMoveSpeed * ts;
+
+		if (Vantus::Input::IsKeyPressed(VANTUS_KEY_I))
+			m_SquarePosition.y += m_SquareMoveSpeed * ts;
+		else if (Vantus::Input::IsKeyPressed(VANTUS_KEY_K))
+			m_SquarePosition.y -= m_SquareMoveSpeed * ts;
+
 		Vantus::RenderCommand::SetClearColor({ 0.1, 0.1, 0.1, 1 });
 		Vantus::RenderCommand::Clear();
 
@@ -142,7 +155,15 @@ public:
 		m_Camera.SetPosition(m_CameraPosition);
 		m_Camera.SetRotation(m_CameraRotation);
 
-		Vantus::Renderer::Submit(m_BlueShader, m_SquareVA);
+		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.065f));
+
+		for (int x = 0; x < 20; x++) {
+			for (int y = 0; y < 20; y++) {
+				glm::vec3 pos(x * 0.11f + m_SquarePosition.x, y * 0.11f + m_SquarePosition.y, 0.0f);
+				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
+				Vantus::Renderer::Submit(m_BlueShader, m_SquareVA, transform);
+			}
+		}
 		Vantus::Renderer::Submit(m_Shader, m_VertexArray);
 
 		Vantus::Renderer::EndScene();
@@ -163,6 +184,9 @@ private:
 
 	float m_CameraRotation = 0.0;
 	float m_CameraRotationSpeed = 75;
+
+	glm::vec3 m_SquarePosition;
+	float m_SquareMoveSpeed = 1.0;
 };
 
 class Sandbox : public Vantus::Application {
