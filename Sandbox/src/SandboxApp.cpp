@@ -109,10 +109,11 @@ public:
 		std::string BlueShaderFragmentSrc = R"(
 			#version 330 core
 			
-			layout(location = 0) out vec4 u_Color;
+			layout(location = 0) out vec4 color;
+			uniform vec4 u_Color;
 
 			void main(){
-				u_Color = vec4(0.2, 0.3, 0.8, 1.0);
+				color = u_Color;
 			}
 			
 		)";
@@ -155,12 +156,19 @@ public:
 		m_Camera.SetPosition(m_CameraPosition);
 		m_Camera.SetRotation(m_CameraRotation);
 
-		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.065f));
+		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.06f));
 
+		glm::vec4 redColoe(0.8f,0.2f,0.3f,1.0f);
+		glm::vec4 blueColoe(0.2f,0.3f,0.8f,1.0f);
 		for (int x = 0; x < 20; x++) {
 			for (int y = 0; y < 20; y++) {
 				glm::vec3 pos(x * 0.11f + m_SquarePosition.x, y * 0.11f + m_SquarePosition.y, 0.0f);
 				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
+				if ((x+y) % 2 == 0)
+					m_BlueShader->UploarUnformFloat4("u_Color", blueColoe);
+				else 
+					m_BlueShader->UploarUnformFloat4("u_Color", redColoe);
+
 				Vantus::Renderer::Submit(m_BlueShader, m_SquareVA, transform);
 			}
 		}

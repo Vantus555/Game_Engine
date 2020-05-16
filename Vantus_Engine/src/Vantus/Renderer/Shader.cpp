@@ -94,6 +94,12 @@ namespace Vantus {
 		glUseProgram(0);
 	}
 
+	void Shader::UploarUnformFloat4(const std::string& name, const glm::vec4& values) {
+		int location = glGetUniformLocation(m_RendererID, name.c_str());
+		if (location != -1)
+			glUniform4f(location, values.x, values.y, values.z, values.w);
+	}
+
 	void Shader::UploarUnformMat4(const std::string& name, const glm::mat4& matrix) {
 		int location = glGetUniformLocation(m_RendererID, name.c_str());
 		if (location != -1)
