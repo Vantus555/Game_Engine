@@ -6,6 +6,7 @@
 #include "Events/Event.h"
 #include "Vantus/Events/ApplicationEvent.h"
 #include "Vantus/ImGui/ImGuiLayer.h"
+#include "Vantus/Core/TimeStep.h"
 
 namespace Vantus {
 	class VANTUS_API Application
@@ -32,9 +33,9 @@ namespace Vantus {
 
 		std::unique_ptr<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
-
 		bool m_Running = true;
 		LayerStack m_LayerStack;
+		float m_LastFrameTime = 0.0;
 
 		static Application* m_Instance;
 	};

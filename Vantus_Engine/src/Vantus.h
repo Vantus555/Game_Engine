@@ -4,6 +4,8 @@
 #include "Vantus/Log.h"
 #include "Vantus/Layer.h"
 
+#include "Vantus/Core/TimeStep.h"
+
 #include "Vantus/Input.h"
 #include "Vantus/KeyCodes.h"
 #include "Vantus/MouseButtonCodes.h"

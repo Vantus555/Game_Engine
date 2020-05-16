@@ -116,21 +116,23 @@ public:
 		m_BlueShader.reset(new Vantus::Shader(BlueShaderVertexSrc, BlueShaderFragmentSrc));
 	}
 
-	void OnUpdate() override {
+	void OnUpdate(Vantus::TimeStep ts) override {
+		VANTUS_INFO("Delta time: {0}s ({1}ms)", ts.GetSeconds(), ts.GetMilliSeconds());
+		
 		if (Vantus::Input::IsKeyPressed(VANTUS_KEY_LEFT))
-			m_CameraPosition.x += m_CameraMoveSpeed;
+			m_CameraPosition.x += m_CameraMoveSpeed * ts;
 		else if(Vantus::Input::IsKeyPressed(VANTUS_KEY_RIGHT))
-			m_CameraPosition.x -= m_CameraMoveSpeed;
+			m_CameraPosition.x -= m_CameraMoveSpeed * ts;
 
 		if (Vantus::Input::IsKeyPressed(VANTUS_KEY_UP))
-			m_CameraPosition.y -= m_CameraMoveSpeed;
+			m_CameraPosition.y -= m_CameraMoveSpeed * ts;
 		else if (Vantus::Input::IsKeyPressed(VANTUS_KEY_DOWN))
-			m_CameraPosition.y += m_CameraMoveSpeed;
+			m_CameraPosition.y += m_CameraMoveSpeed * ts;
 
 		if (Vantus::Input::IsKeyPressed(VANTUS_KEY_A))
-			m_CameraRotation -= m_CameraRotationSpeed;
+			m_CameraRotation -= m_CameraRotationSpeed * ts;
 		else if (Vantus::Input::IsKeyPressed(VANTUS_KEY_D))
-			m_CameraRotation += m_CameraRotationSpeed;
+			m_CameraRotation += m_CameraRotationSpeed * ts;
 
 		Vantus::RenderCommand::SetClearColor({ 0.1, 0.1, 0.1, 1 });
 		Vantus::RenderCommand::Clear();
@@ -157,15 +159,16 @@ private:
 	Vantus::OrthographicCamera m_Camera;
 
 	glm::vec3 m_CameraPosition;
-	float m_CameraMoveSpeed = 0.05;
+	float m_CameraMoveSpeed = 3.0;
 
 	float m_CameraRotation = 0.0;
-	float m_CameraRotationSpeed = 2;
+	float m_CameraRotationSpeed = 75;
 };
 
 class Sandbox : public Vantus::Application {
 public:
 	Sandbox() {
+		this->GetWindow().SetVSync(true);
 		PushLayer(new ExampleLeyer());
 	}
 	~Sandbox() {
