@@ -1,6 +1,8 @@
 #include "vpch.h"
 #include "Renderer.h"
 
+#include "Platform/OpenGL/OpenGLShader.h"
+
 namespace Vantus {
 	
 	Renderer::SceneData* Renderer::m_SceneData = new Renderer::SceneData;
@@ -15,8 +17,8 @@ namespace Vantus {
 		const glm::mat4& transform) 
 	{
 		shader->Bind();
-		shader->UploarUnformMat4("u_ViewProjection", m_SceneData->ViewProjectionMatrix);
-		shader->UploarUnformMat4("u_Transform", transform);
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploarUnformMat4("u_ViewProjection", m_SceneData->ViewProjectionMatrix);
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploarUnformMat4("u_Transform", transform);
 
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);

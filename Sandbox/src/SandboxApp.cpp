@@ -1,15 +1,18 @@
+#include "Platform/OpenGL/OpenGLShader.h"
+
 #include "Vantus.h"
 
 #include "glm/gtc/matrix_transform.hpp"
+#include "../imgui/imgui.h"
+#include "glm/gtc/type_ptr.hpp"
 
 class ExampleLeyer : public Vantus::Layer {
 public:
 	ExampleLeyer()
-		: Layer("Example"), 
-		m_Camera(-1.6f * 2, 1.6f * 2, -0.9f * 2, 0.9f * 2), 
-		m_CameraPosition({0.0}),
-		m_SquarePosition({-1.0})
-	{
+		: Layer("Example"),
+		m_Camera(-1.6f * 2, 1.6f * 2, -0.9f * 2, 0.9f * 2),
+		m_CameraPosition({ 0.0 }),
+		m_SquarePosition({ -1.0 }) {
 		m_VertexArray.reset(Vantus::VertexArray::Create());
 
 		float vertices[] = {
@@ -63,7 +66,7 @@ public:
 			}
 			
 		)";
-		m_Shader.reset(new Vantus::Shader(vertexSrc, fragmentSrc));
+		m_Shader.reset(Vantus::Shader::Create(vertexSrc, fragmentSrc));
 
 		/////////////////////////////////////////////////////////////////////
 		//// Square
@@ -110,22 +113,22 @@ public:
 			#version 330 core
 			
 			layout(location = 0) out vec4 color;
-			uniform vec4 u_Color;
+			uniform vec3 u_Color;
 
 			void main(){
-				color = u_Color;
+				color = vec4(u_Color, 1.0);
 			}
 			
 		)";
-		m_BlueShader.reset(new Vantus::Shader(BlueShaderVertexSrc, BlueShaderFragmentSrc));
+		m_BlueShader.reset(Vantus::Shader::Create(BlueShaderVertexSrc, BlueShaderFragmentSrc));
 	}
 
 	void OnUpdate(Vantus::TimeStep ts) override {
 		//VANTUS_INFO("Delta time: {0}s ({1}ms)", ts.GetSeconds(), ts.GetMilliSeconds());
-		
+
 		if (Vantus::Input::IsKeyPressed(VANTUS_KEY_LEFT))
 			m_CameraPosition.x += m_CameraMoveSpeed * ts;
-		else if(Vantus::Input::IsKeyPressed(VANTUS_KEY_RIGHT))
+		else if (Vantus::Input::IsKeyPressed(VANTUS_KEY_RIGHT))
 			m_CameraPosition.x -= m_CameraMoveSpeed * ts;
 
 		if (Vantus::Input::IsKeyPressed(VANTUS_KEY_UP))
@@ -158,16 +161,13 @@ public:
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.06f));
 
-		glm::vec4 redColoe(0.8f,0.2f,0.3f,1.0f);
-		glm::vec4 blueColoe(0.2f,0.3f,0.8f,1.0f);
+		std::dynamic_pointer_cast<Vantus::OpenGLShader>(m_BlueShader)->Bind();
+		std::dynamic_pointer_cast<Vantus::OpenGLShader>(m_BlueShader)->UploarUniformFloat3("u_Color", m_SquareColor);
+
 		for (int x = 0; x < 20; x++) {
 			for (int y = 0; y < 20; y++) {
 				glm::vec3 pos(x * 0.11f + m_SquarePosition.x, y * 0.11f + m_SquarePosition.y, 0.0f);
 				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
-				if ((x+y) % 2 == 0)
-					m_BlueShader->UploarUnformFloat4("u_Color", blueColoe);
-				else 
-					m_BlueShader->UploarUnformFloat4("u_Color", redColoe);
 
 				Vantus::Renderer::Submit(m_BlueShader, m_SquareVA, transform);
 			}
@@ -178,6 +178,12 @@ public:
 	}
 
 	void OnEvent(Vantus::Event& event) override {}
+
+	virtual void OnImGuiRender() override {
+		ImGui::Begin("Settings");
+		ImGui::ColorEdit3("Square Color", value_ptr(m_SquareColor));
+		ImGui::End();
+	}
 private:
 	std::shared_ptr<Vantus::Shader> m_Shader;
 	std::shared_ptr<Vantus::VertexArray> m_VertexArray;
@@ -195,6 +201,8 @@ private:
 
 	glm::vec3 m_SquarePosition;
 	float m_SquareMoveSpeed = 1.0;
+
+	glm::vec3 m_SquareColor = { 0.2f, 0.3f, 0.8f};
 };
 
 class Sandbox : public Vantus::Application {
