@@ -21,7 +21,7 @@ public:
 			0.5,	-0.5,	0.0,	1.0,	1.0,	0.0,	0.0
 		};
 
-		std::shared_ptr<Vantus::VertexBuffer> m_VertexBuffer;
+		Vantus::Ref<Vantus::VertexBuffer> m_VertexBuffer;
 		m_VertexBuffer.reset(Vantus::VertexBuffer::Create(vertices, sizeof(vertices)));
 
 		Vantus::BufferLayout layout = {
@@ -34,7 +34,7 @@ public:
 
 		uint32_t indices[] = { 0,1,2 };
 
-		std::shared_ptr<Vantus::IndexBuffer> m_IndexBuffer;
+		Vantus::Ref<Vantus::IndexBuffer> m_IndexBuffer;
 		m_IndexBuffer.reset(Vantus::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 
@@ -81,7 +81,7 @@ public:
 			-0.75,	 0.75,	0.0
 		};
 
-		std::shared_ptr<Vantus::VertexBuffer> squareVB;
+		Vantus::Ref<Vantus::VertexBuffer> squareVB;
 		squareVB.reset(Vantus::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
 
 		squareVB->SetLayout({
@@ -91,7 +91,7 @@ public:
 
 		uint32_t squareVndices[] = { 0,1,2,2,3,0 };
 
-		std::shared_ptr<Vantus::IndexBuffer> squareIB;
+		Vantus::Ref<Vantus::IndexBuffer> squareIB;
 		squareIB.reset(Vantus::IndexBuffer::Create(squareVndices, sizeof(squareVndices) / sizeof(uint32_t)));
 		m_SquareVA->SetIndexBuffer(squareIB);
 
@@ -185,11 +185,11 @@ public:
 		ImGui::End();
 	}
 private:
-	std::shared_ptr<Vantus::Shader> m_Shader;
-	std::shared_ptr<Vantus::VertexArray> m_VertexArray;
+	Vantus::Ref<Vantus::Shader> m_Shader;
+	Vantus::Ref<Vantus::VertexArray> m_VertexArray;
 
-	std::shared_ptr<Vantus::Shader> m_BlueShader;
-	std::shared_ptr<Vantus::VertexArray> m_SquareVA;
+	Vantus::Ref<Vantus::Shader> m_BlueShader;
+	Vantus::Ref<Vantus::VertexArray> m_SquareVA;
 
 	Vantus::OrthographicCamera m_Camera;
 

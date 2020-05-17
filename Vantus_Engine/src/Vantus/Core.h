@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #ifdef VANTUS_PLATFORM_WINDOWS
 #if VANTUS_DYNAMIC_LINK
 	#ifdef VANTUS_BUILD_DLL
@@ -29,3 +31,11 @@
 #define BIT(x) (1 << x)
 
 #define VANTUS_BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
+
+namespace Vantus{
+	template<typename T>
+	using Scope = std::unique_ptr<T>;
+
+	template<typename T>
+	using Ref = std::shared_ptr<T>;
+}
